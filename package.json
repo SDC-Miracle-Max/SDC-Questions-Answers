@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "pg": "^8.5.1",
+    "postgres": "^1.0.2"
+  },
+  "name": "SDC-Questions-Answers",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SDC-Miracle-Max/SDC-Questions-Answers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SDC-Miracle-Max/SDC-Questions-Answers/issues"
+  },
+  "homepage": "https://github.com/SDC-Miracle-Max/SDC-Questions-Answers#readme"
+}
