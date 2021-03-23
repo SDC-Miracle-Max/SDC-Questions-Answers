@@ -6,24 +6,37 @@ const port = 3000
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.json({ info: 'hello from info'})
+  const id = req.query.product_id;
+
+  pool.query(`
+
+  `, [id])
+    .then((questions) => {
+      res.send(questions.rows)
+    })
+    .catch((err) => {
+      throw err;
+    })
+
 })
 
 //Questions List (do not include reported Qs)
 app.get('/qa/questions', (req, res) => {
   //don't forget to handle params: product_id, page, count
-  console.log('req.query', req.query)
-  const id = req.query.product_id;
-  pool.query('SELECT * FROM questions WHERE product_id = $1', [id], (err, results) => {
-    if (err) {
-      res.sendStatus(400);
-      throw err
-    }
-    res.send({
-      "product_id": 1,
-      "results": results.rows
+  const pId = req.query.product_id;
+  pool.query(`
+    SELECT * FROM questions LEFT JOIN
+      answers ON questions.question_id = answers.question_id LEFT JOIN
+        answer_photos ON answers.answer_id = answer_photos.answer_id
+    WHERE product_id = $1;
+  `, [pId])
+    .then((questions) => {
+      res.send(questions.rows)
     })
-  })
+    .catch((err) => {
+      res.sendStatus(400);
+      throw err;
+    })
   // res.send('hello from qa/questions')
 })
 
@@ -31,7 +44,17 @@ app.get('/qa/questions', (req, res) => {
 app.get('/qa/questions/:question_id/answers', (req, res) => {
   //don't forget to handle params: question_id
   //Query params: page, count
-  res.send('hello from /qa/questions/:question_id/answers')
+  const qId = req.params.question_id;
+  pool.query(`
+    SELECT * FROM answers WHERE question_id = $1
+  `, [qId])
+    .then((answers) => {
+      res.send(answers.rows)
+    })
+    .catch((err) => {
+      res.sendStatus(400);
+      throw err;
+    })
 })
 
 //Add a question for a product

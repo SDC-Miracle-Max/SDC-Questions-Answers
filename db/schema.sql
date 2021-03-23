@@ -3,14 +3,14 @@ DROP TABLE IF EXISTS answers;
 DROP TABLE IF EXISTS questions;
 
 CREATE TABLE questions (
-  id SERIAL PRIMARY KEY,
+  question_id SERIAL PRIMARY KEY,
   product_id INT NOT NULL,
-  body VARCHAR(500) NOT NULL,
-  date_written DATE,
+  question_body VARCHAR(500) NOT NULL,
+  question_date DATE,
   asker_name VARCHAR(50) NOT NULL,
   asker_email VARCHAR(50) NOT NULL,
-  reported BOOLEAN NOT NULL,
-  helpful INT NOT NULL
+  question_reported BOOLEAN NOT NULL,
+  question_helpful INT NOT NULL
 );
 
 COPY questions
@@ -19,16 +19,16 @@ DELIMITER ','
 CSV Header;
 
 CREATE TABLE answers (
-  id SERIAL PRIMARY KEY,
+  answer_id SERIAL PRIMARY KEY,
   question_id INT NOT NULL,
-  body VARCHAR(500) NOT NULL,
-  date_created DATE,
+  answer_body VARCHAR(500) NOT NULL,
+  answer_date DATE,
   answerer_name VARCHAR(50) NOT NULL,
   answerer_email VARCHAR(50) NOT NULL,
-  reported BOOLEAN NOT NULL,
-  helpful INT NOT NULL,
+  answer_reported BOOLEAN NOT NULL,
+  answer_helpful INT NOT NULL,
   FOREIGN KEY(question_id)
-    REFERENCES questions (id)
+    REFERENCES questions (question_id)
 );
 
 COPY answers
@@ -37,11 +37,11 @@ DELIMITER ','
 CSV Header;
 
 CREATE TABLE answer_photos (
-  id SERIAL PRIMARY KEY,
+  answer_photos_id SERIAL PRIMARY KEY,
   answer_id INT NOT NULL,
   "url" VARCHAR(300) NOT NULL,
   FOREIGN KEY(answer_id)
-    REFERENCES answers (id)
+    REFERENCES answers (answer_id)
 );
 
 COPY answer_photos
@@ -49,7 +49,10 @@ FROM '/Users/chrisholley/hackReactor/SDC-Questions-Answers/answers_photos.csv'
 DELIMITER ','
 CSV Header;
 
-CREATE INDEX answers_question_id ON answers (question_id);
-CREATE INDEX answers_photos_id ON answer_photos (answer_id);
+CREATE INDEX questionsT_product_id_idx ON questions (product_id);
+CREATE INDEX answersT_question_id_idx ON answers (question_id);
+CREATE INDEX answerphotosT_answer_id_idx ON answer_photos (answer_id);
 
-
+-- GRANT ALL ON questions TO root;
+-- GRANT ALL ON answers TO root;
+-- GRANT ALL ON answer_photos TO root;

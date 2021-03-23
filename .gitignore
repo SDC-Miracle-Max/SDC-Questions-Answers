@@ -106,3 +106,5 @@ dist
 
 *.csv
 config.js
+*.pem
+*.cer
