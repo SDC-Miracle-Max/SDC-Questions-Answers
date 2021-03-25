@@ -108,3 +108,5 @@ dist
 config.js
 *.pem
 *.cer
+qa.sql
+

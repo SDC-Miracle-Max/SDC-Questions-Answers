@@ -5,40 +5,41 @@ const port = 3000
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  const id = req.query.product_id;
-
-  pool.query(`
-
-  `, [id])
-    .then((questions) => {
-      res.send(questions.rows)
-    })
-    .catch((err) => {
-      throw err;
-    })
-
-})
-
-//Questions List (do not include reported Qs)
 app.get('/qa/questions', (req, res) => {
-  //don't forget to handle params: product_id, page, count
   const pId = req.query.product_id;
+
   pool.query(`
-    SELECT * FROM questions LEFT JOIN
-      answers ON questions.question_id = answers.question_id LEFT JOIN
-        answer_photos ON answers.answer_id = answer_photos.answer_id
-    WHERE product_id = $1;
+    SELECT * FROM questions WHERE product_id = $1;
   `, [pId])
     .then((questions) => {
       res.send(questions.rows)
     })
     .catch((err) => {
-      res.sendStatus(400);
+      res.send(400)
       throw err;
     })
-  // res.send('hello from qa/questions')
 })
+
+
+// //Questions List (do not include reported Qs)
+// app.get('/qa/questions', (req, res) => {
+//   //don't forget to handle params: product_id, page, count
+//   const pId = req.query.product_id;
+//   pool.query(`
+//     SELECT * FROM questions LEFT JOIN
+//       answers ON questions.question_id = answers.question_id LEFT JOIN
+//         answer_photos ON answers.answer_id = answer_photos.answer_id
+//     WHERE product_id = $1;
+//   `, [pId])
+//     .then((questions) => {
+//       res.send(questions.rows)
+//     })
+//     .catch((err) => {
+//       res.sendStatus(400);
+//       throw err;
+//     })
+//   // res.send('hello from qa/questions')
+// })
 
 //Answers list (do not include reported As)
 app.get('/qa/questions/:question_id/answers', (req, res) => {
