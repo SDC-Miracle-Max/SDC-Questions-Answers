@@ -96,6 +96,12 @@ app.put('/qa/questions/:answer_id/report', (req, res) => {
   res.send('hello from /qa/questions/:answer_id/report PUT')
 })
 
+
+app.get('/loaderio-b73e926d7093dc0a2c53cb3c8941e71e/', (req, res) => {
+  res.send('loaderio-b73e926d7093dc0a2c53cb3c8941e71e')
+})
+
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
