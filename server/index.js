@@ -7,7 +7,6 @@ app.use(express.json());
 
 app.get('/empty/endpoint', (req, res) => {
   res.send('hello!');
-  res.sendStatus(200);
 })
 
 app.get('/qa/questions', (req, res) => {
